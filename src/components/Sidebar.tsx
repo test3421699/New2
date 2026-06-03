@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AcademicSubject, StudySession } from '../types';
-import { BookOpen, X, Trash2, History, Layers } from 'lucide-react';
+import { BookOpen, X, Trash2, History, Layers, Download } from 'lucide-react';
 
 interface SidebarProps {
   currentSubject: AcademicSubject;
@@ -15,6 +15,10 @@ interface SidebarProps {
   activeSessionId: string | null;
   onSelectSession: (id: string) => void;
   onDeleteSession: (id: string) => void;
+
+  // PWA props
+  showInstallBtn?: boolean;
+  onInstallPWA?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -28,6 +32,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   activeSessionId,
   onSelectSession,
   onDeleteSession,
+  showInstallBtn = false,
+  onInstallPWA,
 }) => {
   const [activeTab, setActiveTab] = useState<'subjects' | 'history'>('subjects');
 
@@ -226,6 +232,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           )}
         </nav>
+
+        {/* PWA Install Promo */}
+        {showInstallBtn && onInstallPWA && (
+          <div className="mb-4 bg-indigo-800/60 border border-indigo-500/20 p-3.5 rounded-2xl shadow-md flex flex-col gap-2.5 animate-fadeIn shrink-0">
+            <div className="flex items-start gap-2.5">
+              <div className="p-1.5 bg-yellow-400 text-indigo-950 rounded-lg shrink-0 flex items-center justify-center animate-pulse">
+                <Download className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase text-yellow-300 tracking-widest">Install StudyMate</p>
+                <p className="text-[10px] text-indigo-200 mt-0.5 leading-relaxed">
+                  Save StudyMate on your desktop or mobile home screen as a standalone classroom.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={onInstallPWA}
+              className="w-full py-2 bg-yellow-400 hover:bg-yellow-300 text-indigo-950 font-black text-[10px] uppercase tracking-wider rounded-xl transition-all cursor-pointer select-none text-center shadow-md active:scale-[0.98]"
+            >
+              Install App
+            </button>
+          </div>
+        )}
 
         {/* Goal Widget */}
         <div className="mt-auto pt-6 border-t border-indigo-600/40">

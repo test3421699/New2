@@ -138,7 +138,7 @@ Please help me solve this problem or teach me this concept of based on my learni
     });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: 'gemini-2.5-flash',
       contents,
       config: {
         systemInstruction,

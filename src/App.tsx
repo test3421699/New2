@@ -9,6 +9,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Image as ImageIcon, Send, Loader2, Sparkles, X, GraduationCap, ArrowDown, HelpCircle, RotateCcw } from 'lucide-react';
 
 export default function App() {
+  // PWA installation states
+  const [deferredPrompt, setDeferredPrompt] = useState<any | null>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
   // Auth states
   const [currentUser, setCurrentUser] = useState<UserAccount | null>(null);
   const [isAuthLoaded, setIsAuthLoaded] = useState(false);
@@ -43,6 +47,44 @@ export default function App() {
   // Auto scroll to latest doubt solution
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // PWA installation triggers and window listener hooks
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      // Prevent browser default mini-prompt
+      e.preventDefault();
+      // Store prompt event for triggering later
+      setDeferredPrompt(e);
+      // Reveal PWA install visual block
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    // If already launched or installed as standalone
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowInstallBtn(false);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallPWA = async () => {
+    if (!deferredPrompt) return;
+    try {
+      await deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User registered PWA StudyMate install.');
+      }
+      setDeferredPrompt(null);
+      setShowInstallBtn(false);
+    } catch (err) {
+      console.error('Error launching app prompt:', err);
+    }
   };
 
   // Load saved current user on mount
@@ -463,6 +505,8 @@ Could you please check my answer and let me know if is correct or point out any 
         activeSessionId={currentSessionId}
         onSelectSession={handleSelectSession}
         onDeleteSession={handleDeleteSession}
+        showInstallBtn={showInstallBtn}
+        onInstallPWA={handleInstallPWA}
       />
 
       {/* Main Workspace container */}
