@@ -507,6 +507,8 @@ Could you please check my answer and let me know if is correct or point out any 
         onDeleteSession={handleDeleteSession}
         showInstallBtn={showInstallBtn}
         onInstallPWA={handleInstallPWA}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* Main Workspace container */}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { AcademicSubject, StudySession } from '../types';
-import { BookOpen, X, Trash2, History, Layers, Download } from 'lucide-react';
+import { AcademicSubject, StudySession, UserAccount } from '../types';
+import { BookOpen, X, Trash2, History, Layers, Download, LogOut } from 'lucide-react';
 
 interface SidebarProps {
   currentSubject: AcademicSubject;
@@ -19,6 +19,10 @@ interface SidebarProps {
   // PWA props
   showInstallBtn?: boolean;
   onInstallPWA?: () => void;
+
+  // Profile fields for responsive/mobile displays
+  currentUser?: UserAccount | null;
+  onLogout?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -34,6 +38,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onDeleteSession,
   showInstallBtn = false,
   onInstallPWA,
+  currentUser,
+  onLogout,
 }) => {
   const [activeTab, setActiveTab] = useState<'subjects' | 'history'>('subjects');
 
@@ -253,6 +259,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               Install App
             </button>
+          </div>
+        )}
+
+        {/* User Account Info block for high visibility */}
+        {currentUser && (
+          <div className="mb-4 bg-indigo-800/40 border border-indigo-500/20 p-3 rounded-2xl flex items-center gap-3 shrink-0">
+            <div className="w-8.5 h-8.5 rounded-full bg-white/10 flex items-center justify-center text-base select-none">
+              {currentUser.avatar || '🧑‍🎓'}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[9px] font-black uppercase text-indigo-200 tracking-widest leading-none">My Snapshot Workspace</p>
+              <p className="text-xs font-bold text-white truncate mt-1">
+                {currentUser.name}
+              </p>
+              <p className="text-[10px] text-indigo-300 truncate font-medium">
+                {currentUser.email}
+              </p>
+            </div>
+            {onLogout && (
+              <button
+                onClick={onLogout}
+                className="p-1.5 hover:bg-rose-600/30 text-indigo-200 hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
+                title="Sign Out Workspace"
+                id="sidebar-logout-btn"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            )}
           </div>
         )}
 

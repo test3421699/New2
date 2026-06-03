@@ -44,13 +44,13 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="h-20 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between shadow-xs sticky top-0 z-30 w-full font-sans">
-      <div className="flex items-center gap-3 md:gap-5">
+    <header className="h-20 bg-white border-b border-slate-200 px-3 md:px-8 flex items-center justify-between shadow-xs sticky top-0 z-30 w-full font-sans">
+      <div className="flex items-center gap-2 md:gap-5">
         {/* Toggle menu for mobile/tablet */}
         {onMenuToggle && (
           <button
             onClick={onMenuToggle}
-            className="flex lg:hidden items-center justify-center p-2.5 rounded-xl bg-slate-100 hover:bg-indigo-50 border border-slate-200/60 text-slate-600 hover:text-indigo-600 transition-colors shadow-xs cursor-pointer active:scale-95"
+            className="flex lg:hidden items-center justify-center p-2 rounded-xl bg-slate-100 hover:bg-indigo-50 border border-slate-200/60 text-slate-600 hover:text-indigo-600 transition-colors shadow-xs cursor-pointer active:scale-95"
             title="Open subjects sidebar"
             id="mobile-hamburger-button"
           >
@@ -66,17 +66,17 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Dynamic header options */}
-        <div className="flex items-center gap-2 md:gap-4 text-xs md:text-sm">
-          <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Subject:</span>
-          <div className="bg-indigo-50 text-indigo-700 px-3 py-1 md:px-4 md:py-1.5 rounded-full text-xs md:text-sm font-bold border border-indigo-100/80">
+        <div className="flex items-center gap-1.5 md:gap-4 text-xs md:text-sm">
+          <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] md:text-xs hidden sm:inline">Subject:</span>
+          <div className="bg-indigo-50 text-indigo-700 px-2 py-0.5 md:px-4 md:py-1.5 rounded-full text-[11px] md:text-sm font-bold border border-indigo-100/80 max-w-[80px] xs:max-w-none truncate">
             {currentSubject}
           </div>
           <div className="h-4 w-[1px] bg-slate-200"></div>
-          <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">Level:</span>
+          <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] md:text-xs hidden sm:inline">Level:</span>
           <select
             value={currentLevel}
             onChange={(e) => onLevelChange(e.target.value as StudentLevel)}
-            className="bg-transparent font-bold text-slate-700 outline-none cursor-pointer text-xs md:text-sm pr-1"
+            className="bg-transparent font-bold text-slate-700 outline-none cursor-pointer text-[11px] md:text-sm pr-1"
             id="student-school-level-select"
           >
             {levels.map((lvl) => (
@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
             id="mode-doubt-solver-btn"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Doubt Solver</span>
+            <span className="hidden md:inline">Doubt Solver</span>
           </button>
           <button
             onClick={() => onModeChange('concept-teacher')}
@@ -113,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({
             id="mode-concept-teacher-btn"
           >
             <BookOpen className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Teach Concept</span>
+            <span className="hidden md:inline">Teach Concept</span>
           </button>
         </div>
 
@@ -161,9 +161,12 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => setDropdownOpen(false)} 
               />
               <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl border border-slate-200 shadow-xl py-2 z-40 animate-fadeIn">
-                <div className="px-4 py-2 border-b border-slate-100">
-                  <p className="text-xs font-black text-slate-400 uppercase tracking-wider">Active Classroom</p>
-                  <p className="text-sm font-bold text-indigo-900 mt-1 truncate">
+                <div className="px-4 py-2.5 border-b border-slate-100 bg-slate-50/50">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Active Classroom</p>
+                  <p className="text-sm font-bold text-slate-800 mt-1 truncate">
+                    {currentUser ? currentUser.name : 'Guest Student'}
+                  </p>
+                  <p className="text-xs text-indigo-700 mt-0.5 truncate font-semibold">
                     {currentUser ? currentUser.email : 'Unsaved Guest Mode'}
                   </p>
                 </div>

@@ -320,13 +320,13 @@ export const BentoAnswer: React.FC<BentoAnswerProps> = ({ content, onCheckAnswer
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest">
                   Your Answer Scratchpad
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={practiceAnswer}
                     onChange={(e) => setPracticeAnswer(e.target.value)}
                     placeholder="Type your steps or answer here to check..."
-                    className="flex-1 px-4 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-sans"
+                    className="flex-1 px-4 py-2.5 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-sans"
                   />
                   <button
                     onClick={() => {
@@ -336,7 +336,7 @@ export const BentoAnswer: React.FC<BentoAnswerProps> = ({ content, onCheckAnswer
                       }
                     }}
                     disabled={!practiceAnswer.trim()}
-                    className="bg-indigo-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 active:scale-95 transition-all shadow-sm cursor-pointer"
+                    className="w-full sm:w-auto shrink-0 bg-indigo-600 disabled:opacity-50 text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 active:scale-95 transition-all shadow-sm cursor-pointer whitespace-nowrap text-center flex items-center justify-center min-h-[40px]"
                   >
                     Check Work
                   </button>
