@@ -1,0 +1,6 @@
+{
+  "name": "StudyMate AI",
+  "description": "An expert educational tutor powered by AI that helps students learn, understand concepts, and solve doubts step-by-step with multi-subject and image support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
