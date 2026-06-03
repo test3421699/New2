@@ -5,9 +5,10 @@ import Latex from 'react-latex-next';
 
 interface BentoAnswerProps {
   content: string;
+  onCheckAnswer?: (studentAnswer: string) => void;
 }
 
-export const BentoAnswer: React.FC<BentoAnswerProps> = ({ content }) => {
+export const BentoAnswer: React.FC<BentoAnswerProps> = ({ content, onCheckAnswer }) => {
   const parsed = parseTutorResponse(content);
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
   const [practiceAnswer, setPracticeAnswer] = useState('');
@@ -328,20 +329,26 @@ export const BentoAnswer: React.FC<BentoAnswerProps> = ({ content }) => {
                     className="flex-1 px-4 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-sans"
                   />
                   <button
-                    onClick={() => setShowFeedback(true)}
-                    className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 active:scale-95 transition-all shadow-sm"
+                    onClick={() => {
+                      setShowFeedback(true);
+                      if (onCheckAnswer) {
+                        onCheckAnswer(practiceAnswer);
+                      }
+                    }}
+                    disabled={!practiceAnswer.trim()}
+                    className="bg-indigo-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 active:scale-95 transition-all shadow-sm cursor-pointer"
                   >
                     Check Work
                   </button>
                 </div>
 
                 {showFeedback && (
-                  <div className="p-3.5 bg-emerald-50 border border-emerald-100 rounded-lg text-slate-700 text-xs md:text-sm leading-relaxed flex items-start gap-2.5 animate-fadeIn">
-                    <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div className="p-3.5 bg-indigo-50/80 border border-indigo-100 rounded-lg text-slate-700 text-xs md:text-sm leading-relaxed flex items-start gap-2.5 animate-fadeIn">
+                    <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-semibold text-emerald-800">Excellent effort!</p>
+                      <p className="font-semibold text-indigo-900">Evaluating your solution...</p>
                       <p className="text-slate-600 mt-0.5">
-                        StudyMate AI encourages active practice. Go ahead and write a follow-up message to the chat saying your answer <code className="bg-emerald-100/60 px-1 rounded text-emerald-900 font-mono">"{practiceAnswer || '(your work)'}"</code> to verify if your step-by-step is correct!
+                        StudyMate AI has received your answer: <code className="bg-indigo-100/60 px-1 rounded text-indigo-900 font-mono">"{practiceAnswer}"</code>. We have automatically posted it to the tutor. Watch the lesson dialogue below for feedback!
                       </p>
                     </div>
                   </div>

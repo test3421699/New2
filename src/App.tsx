@@ -316,6 +316,18 @@ export default function App() {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  // Automatically check the student's self practice work with AI tutor
+  const handleCheckPracticeAnswer = (practiceAnswer: string) => {
+    if (!practiceAnswer.trim()) return;
+    handleSubmitDoubt(
+      undefined,
+      `I tried the self-practice question! Here is my answer/steps:
+"${practiceAnswer}"
+
+Could you please check my answer and let me know if is correct or point out any mistakes?`
+    );
+  };
+
   // Submit Doubt to server API
   const handleSubmitDoubt = async (e?: React.FormEvent, presetQuery?: string) => {
     if (e) e.preventDefault();
@@ -531,7 +543,7 @@ export default function App() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.35, ease: 'easeOut' }}
                     >
-                      <ChatMessageBubble message={message} />
+                      <ChatMessageBubble message={message} onCheckAnswer={handleCheckPracticeAnswer} />
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -641,26 +653,6 @@ export default function App() {
                     Solve
                   </button>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    const suggestions: Record<string, string> = {
-                      'Mathematics': "Explain Euler's identity elegantly",
-                      'Physics': "How does gravitational time dilation work?",
-                      'Chemistry': "Deconstruct the acid-base neutralization process",
-                      'Biology': "What is the primary role of ATP in cellular respiration?",
-                      'Computer Science': "What is the difference between BFS and DFS?",
-                      'English': "List 3 common examples of dramatic irony in literature",
-                      'General Knowledge': "What triggered the industrial revolution?"
-                    };
-                    setInputText(suggestions[subject] || `Can you teach me a core concept in ${subject}?`);
-                  }}
-                  className="p-3 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 rounded-2xl shadow-lg shadow-yellow-105 transition-colors shrink-0 cursor-pointer"
-                  title="Interactive Suggestion Trigger"
-                >
-                  <Send className="w-6 h-6" />
-                </button>
               </form>
 
               {/* Informative Level details line */}

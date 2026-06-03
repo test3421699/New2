@@ -6,9 +6,10 @@ import Latex from 'react-latex-next';
 
 interface ChatMessageBubbleProps {
   message: ChatMessage;
+  onCheckAnswer?: (studentAnswer: string) => void;
 }
 
-export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({ message }) => {
+export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({ message, onCheckAnswer }) => {
   const isUser = message.role === 'user';
 
   return (
@@ -86,7 +87,7 @@ export const ChatMessageBubble: React.FC<ChatMessageBubbleProps> = ({ message })
             </div>
           ) : (
             /* StudyMate AI Response Bento Grid Container */
-            <BentoAnswer content={message.content} />
+            <BentoAnswer content={message.content} onCheckAnswer={onCheckAnswer} />
           )}
         </div>
       </div>
